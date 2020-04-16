@@ -8,4 +8,4 @@
 # Credits
 - OTC dll: 0x000cb
 - addon dll: LucasFlux#6694 & mightycrookedpigeon
-- loader dll: m4x3r1337
+- loader: m4x3r1337
