@@ -10,26 +10,34 @@ return
 GuiClose:
 ExitApp
 Load:
-IfNotExist, %A_Temp%\cheat.dll
+IfNotExist, C:\OTC
 {
-	UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/cheat.dll, %A_Temp%\cheat.dll
+	FileCreateDir, C:\OTC
+}
+IfNotExist, C:\OTC\cheat.dll
+{
+	UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/cheat.dll, C:\OTC\cheat.dll
 	GuiControl,, Pbar, 50
 }
-IfNotExist, %A_Temp%\addon.dll
+IfNotExist, C:\OTC\addon.dll
 {
-	UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/addon.dll, %A_Temp%\addon.dll
+	UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/addon.dll, C:\OTC\addon.dll
 	GuiControl,, Pbar, 100
 }
-Process, Exist, csgo.exe
+Process, Wait, csgo.exe, 2
 PID = %ErrorLevel%
 if (PID == 0) {
-	MsgBox, Запустите CS:GO
+	MsgBox, 4, OTC Loader, Процесс csgo.exe не найден. Запустить?
+	IfMsgBox, Yes
+		Run, steam://run/730
+	IfMsgBox, No
+		Return
 }
-else {
-	addon = %A_Temp%\addon.dll
+if (PID > 0) {
+	addon = C:\OTC\addon.dll
 	Inject_Dll(PID, addon)
 	Sleep 700
-	cheat = %A_Temp%\cheat.dll
+	cheat = C:\OTC\cheat.dll
 	Inject_Dll(PID, cheat)
 	MsgBox, Successful injection!
 	ExitApp
