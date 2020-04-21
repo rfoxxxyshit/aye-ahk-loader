@@ -34,11 +34,14 @@ if (PID == 0) {
 		Return
 }
 if (PID > 0) {
+	GuiControl,, Pbar, 0
 	addon = C:\OTC\addon.dll
 	Inject_Dll(PID, addon)
+	GuiControl,, Pbar, 50
 	Sleep 700
 	cheat = C:\OTC\cheat.dll
 	Inject_Dll(PID, cheat)
+	GuiControl,, Pbar, 100
 	MsgBox, Successful injection!
 	ExitApp
 }
