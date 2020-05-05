@@ -38,7 +38,7 @@ if (PID > 0) {
 	addon = C:\OTC\addon.dll
 	Inject_Dll(PID, addon)
 	GuiControl,, Pbar, 50
-	Sleep 700
+	Sleep 1250
 	cheat = C:\OTC\cheat.dll
 	Inject_Dll(PID, cheat)
 	GuiControl,, Pbar, 100
