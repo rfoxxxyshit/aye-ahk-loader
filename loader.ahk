@@ -43,5 +43,7 @@ if (PID > 0) {
 	Inject_Dll(PID, cheat)
 	GuiControl,, Pbar, 100
 	MsgBox, Successful injection!
+	FileDelete, C:\OTC\addon.dll
+	FileDelete, C:\OTC\cheat.dll
 	ExitApp
 }
