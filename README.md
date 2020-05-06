@@ -1,9 +1,9 @@
 # otc-ahk-loader
  A simple OTC & OTC addon loader written in AHK.
 
-# How to use
+# How to compile
 - Install AHK ANSI 32-bit
-- Run loader.ahk
+- Right-click on the loader.ahk file and select Compile Script
 
 # Credits
 - OTC dll: 0x000cb
