@@ -1,5 +1,6 @@
 ﻿#include includes\InjectDll.ahk
 #SingleInstance force
+FileDelete, C:\OTC\*.dll
 Gui, Font, s9
 Gui, Add, Button, x120 y80 w110 h30 +Center gLoad, Inject!
 Gui, Add, Progress, x50 y50 w240 h20 -smooth +Center vPbar
@@ -43,7 +44,5 @@ if (PID > 0) {
 	Inject_Dll(PID, cheat)
 	GuiControl,, Pbar, 100
 	MsgBox, Successful injection!
-	FileDelete, C:\OTC\addon.dll
-	FileDelete, C:\OTC\cheat.dll
 	ExitApp
 }
