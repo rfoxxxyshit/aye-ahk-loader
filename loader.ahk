@@ -3,10 +3,10 @@
 #NoTrayIcon
 FileDelete, C:\AYE\*.dll ; бюджетный автоапдейт
 Gui, Font, s9
-Gui, Show, w315 h165, AYE Loader
+Gui, Show, w315 h165, AYE Loader v1.2.1
 Gui, Add, Text, x112 y9 w100 h20 +Center, AYE Loader
 Gui, Add, Progress, x22 y39 w270 h20 -smooth +Center vPbar
-Gui, Add, DropDownList, x112 y79 w100 vcheat, OTC|OTC+Addon|FTC 27.04|
+Gui, Add, DropDownList, x112 y79 w100 vcheat, OTC|OTC+Addon|FTC 27.04|Fake skeet
 Gui, Add, Button, x112 y129 w100 h20 +Center gLoad, load
 
 
@@ -34,6 +34,11 @@ IfNotExist, C:\AYE\ftc.dll
 IfNotExist, C:\AYE\addon.dll
 {
 	UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/addon.dll, C:\AYE\addon.dll
+	GuiControl,, Pbar, 100
+}
+IfNotExist, C:\AYE\skeet.dll
+{
+	UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/skeet.dll, C:\AYE\skeet.dll
 	GuiControl,, Pbar, 100
 }
 Process, Wait, csgo.exe, 1
@@ -73,6 +78,15 @@ else if (PID > 0) and (cheat = "OTC")
 	OTC = C:\AYE\otc.dll
 	GuiControl,, Pbar, 0
 	Inject_Dll(PID,OTC)
+	GuiControl,, Pbar, 100
+	MsgBox, Successful injection!
+	ExitApp	
+}
+else if (PID > 0) and (cheat = "Fake skeet")
+{
+	SKEET = C:\AYE\skeet.dll
+	GuiControl,, Pbar, 0
+	Inject_Dll(PID,SKEET)
 	GuiControl,, Pbar, 100
 	MsgBox, Successful injection!
 	ExitApp	
