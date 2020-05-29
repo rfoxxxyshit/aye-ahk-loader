@@ -99,7 +99,7 @@ if (PID > 0)
 			MsgBox, Successful injection!
 			ExitApp
 		Case "FTC 27.04":
-			TO_LOAD = C:\AYE\otc.dll
+			TO_LOAD = C:\AYE\ftc.dll
 			GuiControl,, Pbar, 0
 			INJECT := Inject_Dll(PID,TO_LOAD)
 			if (!INJECT)
