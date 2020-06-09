@@ -21,14 +21,14 @@ if (autoupdate = "true")
 Menu, ConfigMenu, Add, &Config, ConfigOpen
 Gui, Menu, ConfigMenu
 Gui, Font, s9
-Gui, Show, w315 h165, AYE Loader v1.2.2
+Gui, Show, w315 h165, AYE Loader v1.2.3
 Gui, Add, Text, x112 y9 w100 h20 +Center, AYE Loader
 Gui, Add, Progress, x22 y39 w270 h20 -smooth +Center vPbar
 if (custominject = "true")
 {
-	Gui, Add, DropDownList, x112 y79 w100 vcheat, OTC|OTC+Addon|FTC 27.04|Fake skeet|Load DLL
+	Gui, Add, DropDownList, x112 y79 w100 vcheat Choose1, OTC|OTC+features.win|OTC+source.stealer|fatality.win|Fake skeet|BlazeHack 06.06|Load DLL
 } else {
-	Gui, Add, DropDownList, x112 y79 w100 vcheat, OTC|OTC+Addon|FTC 27.04|Fake skeet
+	Gui, Add, DropDownList, x112 y79 w100 vcheat Choose1, OTC|OTC+features.win|OTC+source.stealer|fatality.win|Fake skeet|BlazeHack 06.06
 }
 Gui, Add, Button, x112 y129 w100 h20 +Center gLoad, Load
 
@@ -55,14 +55,24 @@ if (cheat != "Load DLL")
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/ftc.dll, C:\AYE\ftc.dll
 		GuiControl,, Pbar, 50
 	}
-	IfNotExist, C:\AYE\addon.dll
+	IfNotExist, C:\AYE\features.win.dll
 	{
-		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/addon.dll, C:\AYE\addon.dll
+		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/features.win.dll, C:\AYE\features.win.dll
 		GuiControl,, Pbar, 75
 	}
 	IfNotExist, C:\AYE\skeet.dll
 	{
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/skeet.dll, C:\AYE\skeet.dll
+		GuiControl,, Pbar, 100
+	}
+	IfNotExist, C:\AYE\blazehack.dll
+	{
+		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/blazehack.dll, C:\AYE\blazehack.dll
+		GuiControl,, Pbar, 100
+	}
+	IfNotExist, C:\AYE\source.stealer.dll
+	{
+		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/source.stealer.dll, C:\AYE\source.stealer.dll
 		GuiControl,, Pbar, 100
 	}
 }
@@ -75,7 +85,7 @@ if (PID == 0)
 		try {
 			Run, steam://run/730
 		} catch e {
-			MsgBox, 0, AYE Loader, Стим установи ебать
+			MsgBox, 0, AYE Loader, Стим установи долбаебище
 			return
 		}
 	IfMsgBox, No
@@ -85,43 +95,46 @@ if (PID > 0)
 {
 	Switch cheat
 	{
-		Case "OTC+Addon":
+		Case "OTC+features.win":
 			TO_LOAD = C:\AYE\otc.dll
-			ADDON = C:\AYE\addon.dll
+			ADDON = C:\AYE\features.win.dll
 			GuiControl,, Pbar, 0
-			INJECT := Inject_Dll(PID,ADDON)
-			if (!INJECT)
-				Return
+			Inject_Dll(PID,ADDON)
 			GuiControl,, Pbar, 50
 			Sleep 1250
 			Inject_Dll(PID,TO_LOAD)
 			GuiControl,, Pbar, 100
 			MsgBox, Successful injection!
 			ExitApp
-		Case "FTC 27.04":
+		Case "OTC+source.stealer":
+			TO_LOAD = C:\AYE\otc.dll
+			ADDON = C:\AYE\source.stealer.dll
+			GuiControl,, Pbar, 0
+			Inject_Dll(PID,ADDON)
+			GuiControl,, Pbar, 50
+			Sleep 1250
+			Inject_Dll(PID,TO_LOAD)
+			GuiControl,, Pbar, 100
+			MsgBox, Successful injection!
+			ExitApp
+		Case "fatality.win":
 			TO_LOAD = C:\AYE\ftc.dll
 			GuiControl,, Pbar, 0
-			INJECT := Inject_Dll(PID,TO_LOAD)
-			if (!INJECT)
-				Return
+			Inject_Dll(PID,TO_LOAD)
 			GuiControl,, Pbar, 100
 			MsgBox, Successful injection!
 			ExitApp
 		Case "OTC":
 			TO_LOAD = C:\AYE\otc.dll
 			GuiControl,, Pbar, 0
-			INJECT := Inject_Dll(PID,TO_LOAD)
-			if (!INJECT)
-				Return
+			Inject_Dll(PID,TO_LOAD)
 			GuiControl,, Pbar, 100
 			MsgBox, Successful injection!
 			ExitApp
 		Case "Fake skeet":
 			TO_LOAD = C:\AYE\skeet.dll
 			GuiControl,, Pbar, 0
-			INJECT := Inject_Dll(PID,TO_LOAD)
-			if (!INJECT)
-				Return
+			Inject_Dll(PID,TO_LOAD)
 			GuiControl,, Pbar, 100
 			MsgBox, Successful injection!
 			ExitApp
@@ -144,8 +157,13 @@ if (PID > 0)
 			}
 			IfMsgBox, No
 				Return
-		Default:
-			MsgBox, 0, AYE Loader, А че грузить то?
+		Case "BlazeHack 06.06":			
+				TO_LOAD = C:\AYE\blazehack.dll
+				GuiControl,, Pbar, 0
+				Inject_Dll(PID,TO_LOAD)
+				GuiControl,, Pbar, 100
+				MsgBox, Successful injection!
+				ExitApp
 	}
 } else
 {
