@@ -13,7 +13,7 @@
 
 # Credits
 - OTC dll: [0x000cb](https://github.com/0x000cb)
-- OTC addon dll: LucasFlux#6694 & mightycrookedpigeon
+- OTC addon dll: LucasFlux#6694 & [mightycrookedpigeon](https://yougame.biz/members/159770/)
 - FTC dll: [catahustle](https://yougame.biz/members/82060/)
-- Fake skeet dll: **unknown**
+- Fake skeet dll: [clarancehvh](https://yougame.biz/members/341035/)
 - loader: [m4x3r1337](https://github.com/m4x3r1337) & [rf0x1d](https://github.com/rfoxxxy)
