@@ -30,9 +30,9 @@ Gui, Add, Text, x112 y9 w100 h20 +Center, %script%
 Gui, Add, Progress, x22 y39 w270 h20 -smooth +Center vPbar
 if (custominject = "true")
 {
-	Gui, Add, DropDownList, x112 y79 w100 vcheat Choose1, OTC|OTC+features.win|OTC+source.stealer|fatality.win|Fake skeet|BlazeHack 06.06|Load DLL
+	Gui, Add, DropDownList, x112 y79 w100 vcheat Choose1, OTC|OTC+features.win|OTC+source.stealer|fatality.win|Fake skeet|BlazeHack 06.06|KillAura.host|Load DLL
 } else {
-	Gui, Add, DropDownList, x112 y79 w100 vcheat Choose1, OTC|OTC+features.win|OTC+source.stealer|fatality.win|Fake skeet|BlazeHack 06.06
+	Gui, Add, DropDownList, x112 y79 w100 vcheat Choose1, OTC|OTC+features.win|OTC+source.stealer|fatality.win|Fake skeet|BlazeHack 06.06|KillAura.host
 }
 Gui, Add, Button, x15 y129 w100 h20 +Center gLoad, Load
 Gui, Add, Button, x200 y129 w100 h20 +Center gKill, Kill CS:GO
@@ -63,31 +63,36 @@ if (cheat != "Load DLL")
 	IfNotExist, C:\AYE\otc.dll
 	{
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/otc.dll, C:\AYE\otc.dll
-		GuiControl,, Pbar, 25
+		GuiControl,, Pbar, 15
 	}
 	IfNotExist, C:\AYE\ftc.dll
 	{
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/ftc.dll, C:\AYE\ftc.dll
-		GuiControl,, Pbar, 50
+		GuiControl,, Pbar, 30
 	}
 	IfNotExist, C:\AYE\features.win.dll
 	{
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/features.win.dll, C:\AYE\features.win.dll
-		GuiControl,, Pbar, 75
+		GuiControl,, Pbar, 45
 	}
 	IfNotExist, C:\AYE\skeet.dll
 	{
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/skeet.dll, C:\AYE\skeet.dll
-		GuiControl,, Pbar, 100
+		GuiControl,, Pbar, 60
 	}
 	IfNotExist, C:\AYE\blazehack.dll
 	{
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/blazehack.dll, C:\AYE\blazehack.dll
-		GuiControl,, Pbar, 100
+		GuiControl,, Pbar, 75
 	}
 	IfNotExist, C:\AYE\source.stealer.dll
 	{
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/source.stealer.dll, C:\AYE\source.stealer.dll
+		GuiControl,, Pbar, 90
+	}
+	IfNotExist, C:\AYE\killaura.dll
+	{
+		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/killaura.dll, C:\AYE\killaura.dll
 		GuiControl,, Pbar, 100
 	}
 }
@@ -159,6 +164,22 @@ if (PID > 0)
 			MsgBox, Successful injection!
 			Logging(1,"Injected Fake skeet")
 			ExitApp
+		Case "BlazeHack 06.06":			
+			TO_LOAD = C:\AYE\blazehack.dll
+			GuiControl,, Pbar, 0
+			Inject_Dll(PID,TO_LOAD)
+			GuiControl,, Pbar, 100
+			MsgBox, Successful injection!
+			Logging(1,"Injected BlazeHack 06.06")
+			ExitApp
+		Case "KillAura.host":
+			TO_LOAD = C:\AYE\killaura.dll
+			GuiControl,, Pbar, 0
+			Inject_Dll(PID,TO_LOAD)
+			GuiControl,, Pbar, 100
+			MsgBox, Successful injection!
+			Logging(1,"Injected KillAura.host")
+			ExitApp
 		Case "Load DLL":
 			MsgBox, 4, %script%, Мы не будем тебе помогать если у тебя нахуй система полетит винда нахуй слетит это не наша вина.`nПонял?
 			IfMsgBox, Yes
@@ -179,14 +200,6 @@ if (PID > 0)
 			}
 			IfMsgBox, No
 				Return
-		Case "BlazeHack 06.06":			
-				TO_LOAD = C:\AYE\blazehack.dll
-				GuiControl,, Pbar, 0
-				Inject_Dll(PID,TO_LOAD)
-				GuiControl,, Pbar, 100
-				MsgBox, Successful injection!
-				Logging(1,"Injected BlazeHack 06.06")
-				ExitApp
 	}
 } else
 {
