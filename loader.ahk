@@ -1,6 +1,9 @@
 #include includes\InjectDll.ahk
 #SingleInstance force
 #NoTrayIcon
+global script = "AYE Loader"
+global version = "1.2.4"
+global authors = "m4x3r1337 & rf0x1d"
 IfNotExist, C:\AYE
 {
 	FileCreateDir, C:\AYE
@@ -21,8 +24,8 @@ if (autoupdate = "true")
 Menu, ConfigMenu, Add, &Config, ConfigOpen
 Gui, Menu, ConfigMenu
 Gui, Font, s9
-Gui, Show, w315 h165, AYE Loader v1.2.3
-Gui, Add, Text, x112 y9 w100 h20 +Center, AYE Loader
+Gui, Show, w315 h165, %script% v%version%
+Gui, Add, Text, x112 y9 w100 h20 +Center, %script%
 Gui, Add, Progress, x22 y39 w270 h20 -smooth +Center vPbar
 if (custominject = "true")
 {
@@ -30,11 +33,22 @@ if (custominject = "true")
 } else {
 	Gui, Add, DropDownList, x112 y79 w100 vcheat Choose1, OTC|OTC+features.win|OTC+source.stealer|fatality.win|Fake skeet|BlazeHack 06.06
 }
-Gui, Add, Button, x112 y129 w100 h20 +Center gLoad, Load
+Gui, Add, Button, x15 y129 w100 h20 +Center gLoad, Load
+Gui, Add, Button, x200 y129 w100 h20 +Center gKill, Kill CS:GO
 
 ConfigOpen()
 {
 	run, notepad.exe "C:\AYE\config.ini"
+}
+KillCsgo()
+{
+	Loop 2
+	{
+		Process, close, csgo.exe
+		GuiControl,, Pbar, +50
+		Sleep, 1550
+	}
+	GuiControl,, Pbar, 0
 }
 
 GuiControl,, Pbar, 0
@@ -80,12 +94,12 @@ Process, Wait, csgo.exe, 1
 PID = %ErrorLevel%
 if (PID == 0)
 {
-	MsgBox, 4, AYE Loader, Процесс csgo.exe не найден. Запустить?
+	MsgBox, 4, %script%, Процесс csgo.exe не найден. Запустить?
 	IfMsgBox, Yes
 		try {
 			Run, steam://run/730
 		} catch e {
-			MsgBox, 0, AYE Loader, Стим установи долбаебище
+			MsgBox, 0, %script%, Стим установи долбаебище
 			return
 		}
 	IfMsgBox, No
@@ -139,12 +153,12 @@ if (PID > 0)
 			MsgBox, Successful injection!
 			ExitApp
 		Case "Load DLL":
-			MsgBox, 4, AYE Loader, Мы не будем тебе помогать если у тебя нахуй система полетит винда нахуй слетит это не наша вина.`nПонял?
+			MsgBox, 4, %script%, Мы не будем тебе помогать если у тебя нахуй система полетит винда нахуй слетит это не наша вина.`nПонял?
 			IfMsgBox, Yes
 			{
-				FileSelectFile, DLL, 3, , AYE Loader | Select DLL, DLL (*.dll)
+				FileSelectFile, DLL, 3, , %script% | Select DLL, DLL (*.dll)
 				if (DLL = "")
-					MsgBox, 0, AYE Loader, Ты не выбрал DLL.
+					MsgBox, 0, %script%, Ты не выбрал DLL.
 				else {
 					GuiControl,, Pbar, 0
 					INJECT := Inject_Dll(PID,DLL)
@@ -167,5 +181,12 @@ if (PID > 0)
 	}
 } else
 {
-	MsgBox, 0, AYE Loader, Ору нищ не пук
+	MsgBox, 0, %script%, Ору нищ не пук
+}
+Kill:
+{
+	MsgBox, Кнопка kill csgo предназначена для закрытия процесса csgo.exe, если после игры с fatality.win ничего не инжектится.
+	KillCsgo()
+	MsgBox, csgo killed
+	Return
 }
