@@ -1,9 +1,6 @@
 # AYE Loader
  A simple loader written in AHK.
  
-# WARNING
-We are migrated to a self-hosted git. New repo link: [click](http://gitea.rf0x3d.design/rf0x1dshit/aye-ahk-loader)
-
 # How to compile
 - Install AHK ANSI 32-bit
 - Right-click on the loader.ahk file and select Compile Script
