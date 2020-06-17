@@ -3,7 +3,7 @@
 #SingleInstance force
 #NoTrayIcon
 global script = "AYE Loader"
-global version = "1.2.5"
+global version = "1.2.6"
 global authors = "m4x3r1337 & rf0x1d"
 IfNotExist, C:\AYE
 {
@@ -20,7 +20,7 @@ StringLower, autoupdate, autoupdate
 StringLower, custominject, custominject
 if (autoupdate = "true")
 {
-	FileDelete, C:\AYE\*.dll ; Р±СЋРґР¶РµС‚РЅС‹Р№ Р°РІС‚РѕР°РїРґРµР№С‚
+	FileDelete, C:\AYE\*.dll ; бюджетный автоапдейт
 }
 Menu, ConfigMenu, Add, &Config, ConfigOpen
 Gui, Menu, ConfigMenu
@@ -30,9 +30,9 @@ Gui, Add, Text, x112 y9 w100 h20 +Center, %script%
 Gui, Add, Progress, x22 y39 w270 h20 -smooth +Center vPbar
 if (custominject = "true")
 {
-	Gui, Add, DropDownList, x112 y79 w100 vcheat Choose1, OTC|OTC+features.win|OTC+source.stealer|fatality.win|Fake skeet|BlazeHack 06.06|KillAura.host|Load DLL
+	Gui, Add, DropDownList, x112 y79 w100 vcheat Choose1, OTC|OTC+features.win|OTC+source.stealer|fatality.win|Fake skeet|BlazeHack 06.06|KillAura.host|weave.su|Load DLL
 } else {
-	Gui, Add, DropDownList, x112 y79 w100 vcheat Choose1, OTC|OTC+features.win|OTC+source.stealer|fatality.win|Fake skeet|BlazeHack 06.06|KillAura.host
+	Gui, Add, DropDownList, x112 y79 w100 vcheat Choose1, OTC|OTC+features.win|OTC+source.stealer|fatality.win|Fake skeet|BlazeHack 06.06|KillAura.host|weave.su
 }
 Gui, Add, Button, x15 y129 w100 h20 +Center gLoad, Load
 Gui, Add, Button, x200 y129 w100 h20 +Center gKill, Kill CS:GO
@@ -95,17 +95,22 @@ if (cheat != "Load DLL")
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/killaura.dll, C:\AYE\killaura.dll
 		GuiControl,, Pbar, 100
 	}
+	IfNotExist, C:\AYE\weave.dll
+	{
+		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/weave.dll, C:\AYE\weave.dll
+		GuiControl,, Pbar, 100
+	}
 }
 Process, Wait, csgo.exe, 1
 PID = %ErrorLevel%
 if (PID == 0)
 {
-	MsgBox, 4, %script%, РџСЂРѕС†РµСЃСЃ csgo.exe РЅРµ РЅР°Р№РґРµРЅ. Р—Р°РїСѓСЃС‚РёС‚СЊ?
+	MsgBox, 4, %script%, Процесс csgo.exe не найден. Запустить?
 	IfMsgBox, Yes
 		try {
 			Run, steam://run/730
 		} catch e {
-			MsgBox, 0, %script%, РЎС‚РёРј СѓСЃС‚Р°РЅРѕРІРё РґРѕР»Р±Р°РµР±РёС‰Рµ
+			MsgBox, 0, %script%, Стим установи долбаебище
 			Logging(2,"not found steam")
 			return
 		}
@@ -181,12 +186,12 @@ if (PID > 0)
 			Logging(1,"Injected KillAura.host")
 			ExitApp
 		Case "Load DLL":
-			MsgBox, 4, %script%, РњС‹ РЅРµ Р±СѓРґРµРј С‚РµР±Рµ РїРѕРјРѕРіР°С‚СЊ РµСЃР»Рё Сѓ С‚РµР±СЏ РЅР°С…СѓР№ СЃРёСЃС‚РµРјР° РїРѕР»РµС‚РёС‚ РІРёРЅРґР° РЅР°С…СѓР№ СЃР»РµС‚РёС‚ СЌС‚Рѕ РЅРµ РЅР°С€Р° РІРёРЅР°.`nРџРѕРЅСЏР»?
+			MsgBox, 4, %script%, Мы не будем тебе помогать если у тебя нахуй система полетит винда нахуй слетит это не наша вина.`nПонял?
 			IfMsgBox, Yes
 			{
 				FileSelectFile, DLL, 3, , %script% | Select DLL, DLL (*.dll)
 				if (DLL = "")
-					MsgBox, 0, %script%, РўС‹ РЅРµ РІС‹Р±СЂР°Р» DLL.
+					MsgBox, 0, %script%, Ты не выбрал DLL.
 				else {
 					GuiControl,, Pbar, 0
 					INJECT := Inject_Dll(PID,DLL)
@@ -200,16 +205,24 @@ if (PID > 0)
 			}
 			IfMsgBox, No
 				Return
+		Case "weave.su":
+			TO_LOAD = C:\AYE\weave.dll
+			GuiControl,, Pbar, 0
+			Inject_Dll(PID,TO_LOAD)
+			GuiControl,, Pbar, 100
+			MsgBox, Successful injection!
+			Logging(1,"Injected weave.su")
+			ExitApp
 	}
 } else
 {
-	MsgBox, 0, %script%, РћСЂСѓ РЅРёС‰ РЅРµ РїСѓРє
+	MsgBox, 0, %script%, Ору нищ не пук
 	Return
 }
 
 Kill:
 {
-	MsgBox, РљРЅРѕРїРєР° kill csgo РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅР° РґР»СЏ Р·Р°РєСЂС‹С‚РёСЏ РїСЂРѕС†РµСЃСЃР° csgo.exe, РµСЃР»Рё РїРѕСЃР»Рµ РёРіСЂС‹ СЃ fatality.win РЅРёС‡РµРіРѕ РЅРµ РёРЅР¶РµРєС‚РёС‚СЃСЏ.
+	MsgBox, Кнопка kill csgo предназначена для закрытия процесса csgo.exe, если после игры с fatality.win ничего не инжектится.
 	KillCsgo()
 	MsgBox, csgo killed
 	Logging(1,"Kill csgo")
