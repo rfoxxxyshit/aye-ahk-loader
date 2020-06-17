@@ -20,7 +20,7 @@ StringLower, autoupdate, autoupdate
 StringLower, custominject, custominject
 if (autoupdate = "true")
 {
-	FileDelete, C:\AYE\*.dll ; бюджетный автоапдейт
+	FileDelete, C:\AYE\*.dll ; Р±СЋРґР¶РµС‚РЅС‹Р№ Р°РІС‚РѕР°РїРґРµР№С‚
 }
 Menu, ConfigMenu, Add, &Config, ConfigOpen
 Gui, Menu, ConfigMenu
@@ -105,12 +105,12 @@ Process, Wait, csgo.exe, 1
 PID = %ErrorLevel%
 if (PID == 0)
 {
-	MsgBox, 4, %script%, Процесс csgo.exe не найден. Запустить?
+	MsgBox, 4, %script%, РџСЂРѕС†РµСЃСЃ csgo.exe РЅРµ РЅР°Р№РґРµРЅ. Р—Р°РїСѓСЃС‚РёС‚СЊ?
 	IfMsgBox, Yes
 		try {
 			Run, steam://run/730
 		} catch e {
-			MsgBox, 0, %script%, Стим установи долбаебище
+			MsgBox, 0, %script%, РЎС‚РёРј СѓСЃС‚Р°РЅРѕРІРё РґРѕР»Р±Р°РµР±РёС‰Рµ
 			Logging(2,"not found steam")
 			return
 		}
@@ -186,12 +186,12 @@ if (PID > 0)
 			Logging(1,"Injected KillAura.host")
 			ExitApp
 		Case "Load DLL":
-			MsgBox, 4, %script%, Мы не будем тебе помогать если у тебя нахуй система полетит винда нахуй слетит это не наша вина.`nПонял?
+			MsgBox, 4, %script%, РњС‹ РЅРµ Р±СѓРґРµРј С‚РµР±Рµ РїРѕРјРѕРіР°С‚СЊ РµСЃР»Рё Сѓ С‚РµР±СЏ РЅР°С…СѓР№ СЃРёСЃС‚РµРјР° РїРѕР»РµС‚РёС‚ РІРёРЅРґР° РЅР°С…СѓР№ СЃР»РµС‚РёС‚ СЌС‚Рѕ РЅРµ РЅР°С€Р° РІРёРЅР°.`nРџРѕРЅСЏР»?
 			IfMsgBox, Yes
 			{
 				FileSelectFile, DLL, 3, , %script% | Select DLL, DLL (*.dll)
 				if (DLL = "")
-					MsgBox, 0, %script%, Ты не выбрал DLL.
+					MsgBox, 0, %script%, РўС‹ РЅРµ РІС‹Р±СЂР°Р» DLL.
 				else {
 					GuiControl,, Pbar, 0
 					INJECT := Inject_Dll(PID,DLL)
@@ -216,13 +216,13 @@ if (PID > 0)
 	}
 } else
 {
-	MsgBox, 0, %script%, Ору нищ не пук
+	MsgBox, 0, %script%, РћСЂСѓ РЅРёС‰ РЅРµ РїСѓРє
 	Return
 }
 
 Kill:
 {
-	MsgBox, Кнопка kill csgo предназначена для закрытия процесса csgo.exe, если после игры с fatality.win ничего не инжектится.
+	MsgBox, РљРЅРѕРїРєР° kill csgo РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅР° РґР»СЏ Р·Р°РєСЂС‹С‚РёСЏ РїСЂРѕС†РµСЃСЃР° csgo.exe, РµСЃР»Рё РїРѕСЃР»Рµ РёРіСЂС‹ СЃ fatality.win РЅРёС‡РµРіРѕ РЅРµ РёРЅР¶РµРєС‚РёС‚СЃСЏ.
 	KillCsgo()
 	MsgBox, csgo killed
 	Logging(1,"Kill csgo")
