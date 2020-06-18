@@ -12,7 +12,7 @@
 - **Перезапустите** лоадер и в списке появится пункт "Load DLL"
 
 # Credits
-- OTC dll: [0x000cb](https://github.com/0x000cb)
+- OTC dll: [0x000cb](https://github.com/0x000cb) & [Kate](https://yougame.biz/members/351791/)
 - OTC addon dll: LucasFlux#6694 & [mightycrookedpigeon](https://yougame.biz/members/159770/)
 - FTC dll: [catahustle](https://yougame.biz/members/82060/)
 - Fake skeet dll: [clarancehvh](https://yougame.biz/members/341035/)
