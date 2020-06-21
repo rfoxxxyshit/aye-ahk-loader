@@ -8,7 +8,7 @@ Inject_CleanUp(pMsg, pHandle, pLibrary)
     DllCall("CloseHandle", "UInt", pHandle)
     Return False
 }
-Inject_Dll(pID, dllPath)
+getVAC(pID, dllPath)
 {
     PROCESS_ALL_ACCESS := 0x1FFFFF,
     MEM_COMMIT := 0x1000,
@@ -19,7 +19,7 @@ Inject_Dll(pID, dllPath)
     StrPut(dllPath, &dllFile)
     If (!pHandle := DllCall("OpenProcess", "UInt", PROCESS_ALL_ACCESS, "Char", False, "UInt", pID))
     {
-        Return Inject_CleanUp("Ну блять пиздос четырка не заводится`nInvalid PID. Напиши это разрабу", NULL, NULL)
+        Return Inject_CleanUp("РќСѓ Р±Р»СЏС‚СЊ РїРёР·РґРѕСЃ С‡РµС‚С‹СЂРєР° РЅРµ Р·Р°РІРѕРґРёС‚СЃСЏ`nInvalid PID. РќР°РїРёС€Рё СЌС‚Рѕ СЂР°Р·СЂР°Р±Сѓ", NULL, NULL)
         Logging(2,"Invalid PID")
     }
     If (!pLibrary := DllCall("VirtualAllocEx", "Ptr", pHandle, "Ptr", NULL, "Ptr", Size, "Ptr", MEM_RESERVE | MEM_COMMIT, "Ptr", MEM_PHYSICAL))
@@ -29,17 +29,17 @@ Inject_Dll(pID, dllPath)
     }
     If (!DllCall("WriteProcessMemory", "Ptr", pHandle, "Ptr", pLibrary, "Ptr", &dllFile, "Ptr", Size, "Ptr", NULL))
     {
-        Return Inject_CleanUp("Взлом жопы не удался`nПопробуй запустить лоадер от имени админа", pHandle, pLibrary)
+        Return Inject_CleanUp("Р’Р·Р»РѕРј Р¶РѕРїС‹ РЅРµ СѓРґР°Р»СЃСЏ`nРџРѕРїСЂРѕР±СѓР№ Р·Р°РїСѓСЃС‚РёС‚СЊ Р»РѕР°РґРµСЂ РѕС‚ РёРјРµРЅРё Р°РґРјРёРЅР°", pHandle, pLibrary)
         Logging(2,"Not enough rights")
     }
     If (!pModule := DllCall("GetModuleHandle", "Str", "kernel32.dll"))
     {
-        Return Inject_CleanUp("Пошел нахуй!", pHandle, pLibrary)
+        Return Inject_CleanUp("РџРѕС€РµР» РЅР°С…СѓР№!", pHandle, pLibrary)
         Logging(2,"Unknown error")
     }
     If (!pFunc := DllCall("GetProcAddress", "Ptr", pModule, "AStr", A_PtrSize = 4 ? "LoadLibraryA" : "LoadLibraryW"))
     {
-        Return Inject_CleanUp("Обнови винду!", pHandle, pLibrary)
+        Return Inject_CleanUp("РћР±РЅРѕРІРё РІРёРЅРґСѓ!", pHandle, pLibrary)
         Logging(2,"Windows build issue MAYBE????")
     }
     If (!hThread := DllCall("CreateRemoteThread", "Ptr", pHandle, "UIntP", NULL, "UInt", NULL, "Ptr", pFunc, "Ptr", pLibrary, "UInt", NULL, "UIntP", NULL))
