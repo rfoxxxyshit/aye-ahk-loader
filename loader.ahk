@@ -14,7 +14,7 @@ ConfigOpen()
 }
 ShowAbout()
 {
-	Logging(1,"Building About GUI")
+	Logging(1,"Building About GUI...")
 	IfNotExist, %A_TEMP%\cheats.ini
 	{
 		cheatsCount = "Не удалось загрузить"
@@ -60,7 +60,7 @@ RunAsAdmin()
 {
 	if (A_IsAdmin = false) 
 	{ 
-		Logging(1,"Restating as admin...")
+		Logging(1,"Restarting as admin...")
    		Run *RunAs "%A_ScriptFullPath%" ,, UseErrorLevel 
 	}
 }
@@ -68,30 +68,25 @@ RunAsAdmin()
 RunAsAdmin()
 Logging(1, "Creating folders and downloading files...")
 IfNotExist, C:\AYE
-{
+{	
+	Logging(1, "Creating folder...")
 	FileCreateDir, C:\AYE
 }
 IfNotExist, C:\AYE\config.ini
-{
-	IniWrite, true, C:\AYE\config.ini, settings, autoupdate
+{	
+	Logging(1, "Creating config file...")
 	IniWrite, false, C:\AYE\config.ini, settings, custominject
 }
 IfNotExist, %A_TEMP%\cheats.ini
-{
+{	
+	Logging(1, "Getting cheat list...")
 	UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/cheats.ini, %A_TEMP%\cheats.ini
 	GuiControl,, Pbar, 100
 }
-Logging(1,"Getting ini files...")
-IniRead, autoupdate, C:\AYE\config.ini, settings, autoupdate
+Logging(1,"Getting vars...")
 IniRead, cheatlist, %A_TEMP%\cheats.ini, cheatlist, cheatlist
 IniRead, custominject, C:\AYE\config.ini, settings, custominject
-StringLower, autoupdate, autoupdate
 StringLower, custominject, custominject
-if (autoupdate = "true")
-{
-	Logging(1,"Autoupdate was enabled!")
-	FileDelete, C:\AYE\*.dll ; бюджетный автоапдейт
-}
 Logging(1,"Building GUI...")
 Menu, AppMenu, Add, &Config, ConfigOpen
 Menu, AppMenu, Add, &About, ShowAbout
