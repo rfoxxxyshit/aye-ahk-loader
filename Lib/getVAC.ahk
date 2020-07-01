@@ -1,7 +1,15 @@
+;=================================================================================
+;	InjectDll - An AutoHotkey library for injecting dll files into a process
+;	Copyright (C) 2016  Brian Baker https://github.com/Fooly-Cooly
+;	Licensed with GPL v3 https://www.gnu.org/licenses/gpl-3.0.txt
+;=================================================================================
+
+
 Inject_CleanUp(pMsg, pHandle, pLibrary)
 {
     If pMsg
     MsgBox, 0, :(, % "Error Code: " . DllCall("GetLastError") . "`n" . pMsg
+    Logging(2,"Error Code: "  DllCall("GetLastError") " | " pMsg)
     If pLibrary
     DllCall("VirtualFreeEx", "UInt", pHandle, "UInt", pLibrary, "UInt", 0, "UInt", 0x8000)
     If pHandle
@@ -19,33 +27,27 @@ getVAC(pID, dllPath)
     StrPut(dllPath, &dllFile)
     If (!pHandle := DllCall("OpenProcess", "UInt", PROCESS_ALL_ACCESS, "Char", False, "UInt", pID))
     {
-        Return Inject_CleanUp("Ну блять пиздос четырка не заводится`nInvalid PID. Напиши это разрабу", NULL, NULL)
-        Logging(2,"Invalid PID")
+        Return Inject_CleanUp("Couldn't open process! Possible Invalid PID", NULL, NULL)
     }
     If (!pLibrary := DllCall("VirtualAllocEx", "Ptr", pHandle, "Ptr", NULL, "Ptr", Size, "Ptr", MEM_RESERVE | MEM_COMMIT, "Ptr", MEM_PHYSICAL))
     {
         Return Inject_CleanUp("Couldn't allocate memory!", pHandle, NULL)
-        Logging(2,"Couldn't allocate memory!")
     }
     If (!DllCall("WriteProcessMemory", "Ptr", pHandle, "Ptr", pLibrary, "Ptr", &dllFile, "Ptr", Size, "Ptr", NULL))
     {
-        Return Inject_CleanUp("Взлом жопы не удался`nПопробуй запустить лоадер от имени админа", pHandle, pLibrary)
-        Logging(2,"Not enough rights")
+        Return Inject_CleanUp("Couldn't write to memory in process! Possible permission Issue, Try Run as Admin.", pHandle, pLibrary)
     }
     If (!pModule := DllCall("GetModuleHandle", "Str", "kernel32.dll"))
     {
-        Return Inject_CleanUp("Пошел нахуй!", pHandle, pLibrary)
-        Logging(2,"Unknown error")
+        Return Inject_CleanUp("Couldn't find kernel32.dll handle!", pHandle, pLibrary)
     }
     If (!pFunc := DllCall("GetProcAddress", "Ptr", pModule, "AStr", A_PtrSize = 4 ? "LoadLibraryA" : "LoadLibraryW"))
     {
-        Return Inject_CleanUp("Обнови винду!", pHandle, pLibrary)
-        Logging(2,"Windows build issue MAYBE????")
+        Return Inject_CleanUp("Couldn't find function 'LoadLibrary' in kernel32.dll!", pHandle, pLibrary)
     }
     If (!hThread := DllCall("CreateRemoteThread", "Ptr", pHandle, "UIntP", NULL, "UInt", NULL, "Ptr", pFunc, "Ptr", pLibrary, "UInt", NULL, "UIntP", NULL))
     {
         Return Inject_CleanUp("Couldn't create thread in PID: " pID, pHandle, pLibrary)
-        Logging(2,"Couldn't create thread in PID")
     }
     DllCall("WaitForSingleObject", "Ptr", hThread, "UInt", WAIT_FAILED)
     If !DllCall("GetExitCodeThread", "Ptr", hThread, "UIntP", lpExitCode)

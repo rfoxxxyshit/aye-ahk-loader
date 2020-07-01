@@ -17,7 +17,7 @@ ShowAbout()
 	Logging(1,"Building About GUI...")
 	IfNotExist, %A_TEMP%\cheats.ini
 	{
-		cheatsCount = "РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ"
+		cheatsCount = "Не удалось загрузить"
 	} else {
 		IniRead, cheatlist, %A_TEMP%\cheats.ini, cheatlist, cheatlist
 		StringSplit, cheatss, cheatlist, |
@@ -27,9 +27,9 @@ ShowAbout()
 	Gui, About:Font, s9
 	Gui, About:Show, w315 h205, %script% v%version% | About
 	Gui, About:Add, Text, x112 y9 w100 h20 +Center, %script%
-	Gui, About:Add, Text, x59 y29 w200 h30 +Center, РђРЈР• Р»РѕР°РґРµСЂ РґР»СЏ РђРЈР• РїР°С†Р°РЅРѕРІ СЃ РѕС‚РєСЂС‹С‚С‹Рј РёСЃС…РѕРґРЅС‹Рј РєРѕРґРѕРј.
-	Gui, About:Add, Text, x59 y69 w200 h20 +Center, Р Р°Р·СЂР°Р±РѕС‚С‡РёРєРё: %authors%
-	Gui, About:Add, Text, x59 y89 w200 h20 +Center, РўРµРєСѓС‰РµРµ РєРѕР»-РІРѕ С‡РёС‚РѕРІ: %cheatsCount%
+	Gui, About:Add, Text, x59 y29 w200 h30 +Center, АУЕ лоадер для АУЕ пацанов с открытым исходным кодом.
+	Gui, About:Add, Text, x59 y69 w200 h20 +Center, Разработчики: %authors%
+	Gui, About:Add, Text, x59 y89 w200 h20 +Center, Текущее кол-во читов: %cheatsCount%
 	Gui, About:Add, Button, x50 y160 w100 h20 +Center gSource, Source code
 	Gui, About:Add, Button, x180 y160 w100 h20 +Center gDonate, Donate
 	Logging(1,"done.")
@@ -121,14 +121,14 @@ PID = %ErrorLevel%
 if (PID == 0)
 {
 	Logging(2,"csgo process not found. promting to start.")
-	MsgBox, 4, %script%, РџСЂРѕС†РµСЃСЃ csgo.exe РЅРµ РЅР°Р№РґРµРЅ. Р—Р°РїСѓСЃС‚РёС‚СЊ?
+	MsgBox, 4, %script%, Процесс csgo.exe не найден. Запустить?
 	IfMsgBox, Yes
 		try {
 			Logging(1,"Starting csgo...")
 			Run, steam://run/730
 			Return
 		} catch e {
-			MsgBox, 0, %script%, РЎС‚РёРј СѓСЃС‚Р°РЅРѕРІРё РґРѕР»Р±Р°РµР±РёС‰Рµ
+			MsgBox, 0, %script%, Стим установи долбаебище
 			Logging(2,"steam not found")
 			return
 		}
@@ -154,8 +154,11 @@ if (Cheat != "Load DLL") and (PID > 0)
 	GuiControl,, Pbar, 0
 	getVAC(PID,TO_LOAD)
 	GuiControl,, Pbar, 100
-	MsgBox, Successful injection!
-	Logging(1,"Injected " DLL)
+	if (return = true)
+	{
+		MsgBox, Successful injection!
+		Logging(1,"Injected " DLL)
+	}
 	GuiControl,, Pbar, 0
 	Return
 }
@@ -163,7 +166,7 @@ if (Cheat != "Load DLL") and (PID > 0)
 
 if (PID > 0) and (Cheat = "Load DLL")
 {
-	MsgBox, 4, %script%, РњС‹ РЅРµ Р±СѓРґРµРј С‚РµР±Рµ РїРѕРјРѕРіР°С‚СЊ РµСЃР»Рё Сѓ С‚РµР±СЏ РЅР°С…СѓР№ СЃРёСЃС‚РµРјР° РїРѕР»РµС‚РёС‚ РІРёРЅРґР° РЅР°С…СѓР№ СЃР»РµС‚РёС‚ СЌС‚Рѕ РЅРµ РЅР°С€Р° РІРёРЅР°.`nРџРѕРЅСЏР»?
+	MsgBox, 4, %script%, Мы не будем тебе помогать если у тебя нахуй система полетит винда нахуй слетит это не наша вина.`nПонял?
 	IfMsgBox, Yes
 	{
 		Logging(1,"Initialized custom injection")
@@ -171,7 +174,7 @@ if (PID > 0) and (Cheat = "Load DLL")
 		if (DLL = "")
 		{
 			Logging(1,"DLL not selected")
-			MsgBox, 0, %script%, РўС‹ РЅРµ РІС‹Р±СЂР°Р» DLL.
+			MsgBox, 0, %script%, Ты не выбрал DLL.
 		}
 		else {
 			Logging(1,"Injecting custom dll...")
@@ -195,7 +198,7 @@ if (PID > 0) and (Cheat = "Load DLL")
 
 Kill:
 {
-	MsgBox, 4, AYE Loader, РљРЅРѕРїРєР° Kill CS:GO РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅР° РґР»СЏ Р·Р°РєСЂС‹С‚РёСЏ РїСЂРѕС†РµСЃСЃР° csgo.exe`, РµСЃР»Рё РїРѕСЃР»Рµ РёРіСЂС‹ СЃ fatality.win РЅРёС‡РµРіРѕ РЅРµ РёРЅР¶РµРєС‚РёС‚СЃСЏ.`nРЈР±РёС‚СЊ CS:GO?
+	MsgBox, 4, AYE Loader, Кнопка Kill CS:GO предназначена для закрытия процесса csgo.exe`, если после игры с fatality.win ничего не инжектится.`nУбить CS:GO?
 	IfMsgBox, Yes
 	{
 		KillCsgo()
