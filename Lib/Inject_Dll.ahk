@@ -16,7 +16,7 @@ Inject_CleanUp(pMsg, pHandle, pLibrary)
     DllCall("CloseHandle", "UInt", pHandle)
     Return False
 }
-getVAC(pID, dllPath)
+Inject_Dll(pID, dllPath)
 {
     PROCESS_ALL_ACCESS := 0x1FFFFF,
     MEM_COMMIT := 0x1000,

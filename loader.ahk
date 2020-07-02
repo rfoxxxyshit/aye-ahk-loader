@@ -4,7 +4,7 @@ FileDelete, %A_TEMP%\cheats.ini
 FileDelete, C:\AYE\*.dll
 
 global script = "AYE Loader"
-global version = "1.2.8-beta"
+global version = "1.2.8.1-beta"
 global authors = "m4x3r1337 and rf0x1d"
 Logging(1,"Starting AYE Loader v" version "...")
 
@@ -152,7 +152,7 @@ if (Cheat != "Load DLL") and (PID > 0)
 	Logging(1,"Injecting " DLL "...")
 	TO_LOAD = C:\AYE\%dll%
 	GuiControl,, Pbar, 0
-	getVAC(PID,TO_LOAD)
+	Inject_Dll(PID,TO_LOAD)
 	GuiControl,, Pbar, 100
 	if (return = true)
 	{
@@ -179,7 +179,7 @@ if (PID > 0) and (Cheat = "Load DLL")
 		else {
 			Logging(1,"Injecting custom dll...")
 			GuiControl,, Pbar, 0
-			INJECT := getVAC(PID,DLL)
+			INJECT := Inject_Dll(PID,DLL)
 			if (!INJECT)
 			{
 				Logging(2,"Injection failed. DLL: " DLL)
