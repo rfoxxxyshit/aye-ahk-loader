@@ -1,69 +1,17 @@
 #SingleInstance force
 #NoTrayIcon
+#include Lib\functions.ahk
 FileDelete, %A_TEMP%\cheats.ini
 FileDelete, C:\AYE\*.dll
 
+
 global script = "AYE Loader"
-global version = "1.2.8.1-beta"
-global authors = "m4x3r1337 and rf0x1d"
+global version = "1.2.9-beta"
+
 Logging(1,"Starting AYE Loader v" version "...")
 
-ConfigOpen()
-{
-	run, notepad.exe "C:\AYE\config.ini"
-}
-ShowAbout()
-{
-	Logging(1,"Building About GUI...")
-	IfNotExist, %A_TEMP%\cheats.ini
-	{
-		cheatsCount = "Не удалось загрузить"
-	} else {
-		IniRead, cheatlist, %A_TEMP%\cheats.ini, cheatlist, cheatlist
-		StringSplit, cheatss, cheatlist, |
-		cheatsCount := cheatss0
-	}
-	Gui, About:New
-	Gui, About:Font, s9
-	Gui, About:Show, w315 h205, %script% v%version% | About
-	Gui, About:Add, Text, x112 y9 w100 h20 +Center, %script%
-	Gui, About:Add, Text, x59 y29 w200 h30 +Center, АУЕ лоадер для АУЕ пацанов с открытым исходным кодом.
-	Gui, About:Add, Text, x59 y69 w200 h20 +Center, Разработчики: %authors%
-	Gui, About:Add, Text, x59 y89 w200 h20 +Center, Текущее кол-во читов: %cheatsCount%
-	Gui, About:Add, Button, x50 y160 w100 h20 +Center gSource, Source code
-	Gui, About:Add, Button, x180 y160 w100 h20 +Center gDonate, Donate
-	Logging(1,"done.")
-	return
-}
-OpenGitHubPage()
-{
-	Run https://github.com/rfoxxxyshit/aye-ahk-loader
-	return
-}
-OpenDonatePage()
-{
-	Run https://qiwi.com/n/m4x3r1337
-	return
-}
-KillCsgo()
-{
-	Loop 2
-	{
-		Logging(1,"Killing csgo...")
-		Process, close, csgo.exe
-		GuiControl,, Pbar, +50
-		Sleep, 1550
-	}
-	GuiControl,, Pbar, 0
-}
-RunAsAdmin()
-{
-	if (A_IsAdmin = false) 
-	{ 
-		Logging(1,"Restarting as admin...")
-   		Run *RunAs "%A_ScriptFullPath%" ,, UseErrorLevel 
-	}
-}
+
+
 
 RunAsAdmin()
 Logging(1, "Creating folders and downloading files...")
@@ -83,20 +31,34 @@ IfNotExist, %A_TEMP%\cheats.ini
 	UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/cheats.ini, %A_TEMP%\cheats.ini
 	GuiControl,, Pbar, 100
 }
+
+
+
+IniRead, language, C:\AYE\config.ini, settings, language
+if (language = "ERROR")
+{
+	MsgBox, 68, , Р•СЃР»Рё РІС‹ С…РѕС‚РёС‚Рµ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ Р СѓСЃСЃРєРёР№ СЏР·С‹Рє, РЅР°Р¶РјРёС‚Рµ Р”Р°.`nIf you want to use English, click No.`n`nР”Р°РЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ РїРѕСЏРІР»СЏРµС‚СЃСЏ С‚РѕР»СЊРєРѕ РїСЂРё РїРµСЂРІРѕРј Р·Р°РїСѓСЃРєРµ.`nThis message appears only on the first launch.
+	IfMsgBox, Yes
+		IniWrite, ru, C:\AYE\config.ini, settings, language
+	IfMsgBox, No
+		IniWrite, en, C:\AYE\config.ini, settings, language
+}
+
+
 Logging(1,"Getting vars...")
 IniRead, cheatlist, %A_TEMP%\cheats.ini, cheatlist, cheatlist
 IniRead, custominject, C:\AYE\config.ini, settings, custominject
-StringLower, custominject, custominject
+IniRead, language, C:\AYE\config.ini, settings, language
+; StringLower, custominject, custominject
+
 Logging(1,"Building GUI...")
-Menu, AppMenu, Add, &Config, ConfigOpen
-Menu, AppMenu, Add, &About, ShowAbout
-Gui, Menu, AppMenu
+
+
 Gui, Font, s9
-Gui, Show, w315 h165, %script% v%version%
+Gui, Show, w315 h195, %script% v%version%
 Gui, Add, Text, x112 y9 w100 h20 +Center, %script%
 Gui, Add, Progress, x22 y39 w270 h20 -smooth +Center vPbar
 
-IniRead, dll, 228.ini, cheats, Cheat
 
 if (custominject = "true")
 {
@@ -105,8 +67,23 @@ if (custominject = "true")
 } else {
 	Gui, Add, DropDownList, x112 y79 w100 vCheat Choose1, %cheatlist%
 }
-Gui, Add, Button, x15 y129 w100 h20 +Center gLoad, Load
-Gui, Add, Button, x200 y129 w100 h20 +Center gKill, Kill CS:GO
+if (language = "en")
+{
+	Gui, Add, Button, x15 y129 w100 h20 +Center gLoad, Load
+	Gui, Add, Button, x200 y129 w100 h20 +Center gKill, Kill CS:GO
+	Menu, AppMenu, Add, &Config, ConfigOpen
+	Menu, AppMenu, Add, &About, ShowAbout
+	Gui, Menu, AppMenu
+} 
+if (language = "ru")
+{
+	Gui, Add, Button, x15 y129 w100 h20 +Center gLoad, Р—Р°РёРЅР¶РµРєС‚РёС‚СЊ
+	Gui, Add, Button, x200 y129 w100 h20 +Center gKill, Р—Р°РєСЂС‹С‚СЊ CS:GO
+	Menu, AppMenu, Add, &РќР°СЃС‚СЂРѕР№РєРё, ConfigOpen
+	Menu, AppMenu, Add, &РРЅС„Рѕ, ShowAbout
+	Gui, Menu, AppMenu
+}
+
 
 GuiControl,, Pbar, 0
 Logging(1,"done.")
@@ -121,14 +98,28 @@ PID = %ErrorLevel%
 if (PID == 0)
 {
 	Logging(2,"csgo process not found. promting to start.")
-	MsgBox, 4, %script%, Процесс csgo.exe не найден. Запустить?
+	if (language = "ru")
+	{
+		MsgBox, 4, %script%, РџСЂРѕС†РµСЃСЃ csgo.exe РЅРµ РЅР°Р№РґРµРЅ. Р—Р°РїСѓСЃС‚РёС‚СЊ?
+	}
+	if (language = "en")
+	{
+		MsgBox, 4, %script%, No csgo.exe process found. Run it?
+	}
 	IfMsgBox, Yes
 		try {
 			Logging(1,"Starting csgo...")
 			Run, steam://run/730
 			Return
 		} catch e {
-			MsgBox, 0, %script%, Стим установи долбаебище
+			if (language = "ru")
+			{
+				MsgBox, 0, %script%, РЎС‚РёРј СѓСЃС‚Р°РЅРѕРІРё РґРѕР»Р±Р°РµР±РёС‰Рµ.
+			}
+			if (language = "en")
+			{
+				MsgBox, 0, %script%, Install steam, retard.
+			}
 			Logging(2,"steam not found")
 			return
 		}
@@ -154,19 +145,30 @@ if (Cheat != "Load DLL") and (PID > 0)
 	GuiControl,, Pbar, 0
 	Inject_Dll(PID,TO_LOAD)
 	GuiControl,, Pbar, 100
-	if (return = true)
+	if (language = "en")
 	{
 		MsgBox, Successful injection!
-		Logging(1,"Injected " DLL)
 	}
+	if (language = "ru")
+	{
+		MsgBox, РРЅР¶РµРєС‚ РїСЂРѕС€РµР» СѓСЃРїРµС€РЅРѕ!
+	}
+	Logging(1,"Injected " DLL)
 	GuiControl,, Pbar, 0
 	Return
 }
 
 
 if (PID > 0) and (Cheat = "Load DLL")
-{
-	MsgBox, 4, %script%, Мы не будем тебе помогать если у тебя нахуй система полетит винда нахуй слетит это не наша вина.`nПонял?
+{	
+	if (language = "ru")
+	{
+		MsgBox, 4, %script%, РњС‹ РЅРµ Р±СѓРґРµРј С‚РµР±Рµ РїРѕРјРѕРіР°С‚СЊ РµСЃР»Рё Сѓ С‚РµР±СЏ РЅР°С…СѓР№ СЃРёСЃС‚РµРјР° РїРѕР»РµС‚РёС‚ РІРёРЅРґР° РЅР°С…СѓР№ СЃР»РµС‚РёС‚ СЌС‚Рѕ РЅРµ РЅР°С€Р° РІРёРЅР°.`nРџРѕРЅСЏР»?
+	}
+	if (language = "en")
+	{
+		MsgBox, 4, %script%, We're not gonna help you if your fucking system is gonna blow the fucking wine off it's not our fault. `nGot it?
+	}	
 	IfMsgBox, Yes
 	{
 		Logging(1,"Initialized custom injection")
@@ -174,7 +176,14 @@ if (PID > 0) and (Cheat = "Load DLL")
 		if (DLL = "")
 		{
 			Logging(1,"DLL not selected")
-			MsgBox, 0, %script%, Ты не выбрал DLL.
+			if (language = "ru")
+			{
+				MsgBox, 0, %script%, РўС‹ РЅРµ РІС‹Р±СЂР°Р» DLL.
+			}
+			if (language = "en")
+			{
+				MsgBox, 0, %script%, You didn't choose the DLL.
+			}
 		}
 		else {
 			Logging(1,"Injecting custom dll...")
@@ -186,7 +195,14 @@ if (PID > 0) and (Cheat = "Load DLL")
 				Return
 			}
 			GuiControl,, Pbar, 100
-			MsgBox, Successful injection!
+			if (language = "en")
+			{
+				MsgBox, Successful injection!
+			}
+			if (language = "ru")
+			{
+				MsgBox, РРЅР¶РµРєС‚ РїСЂРѕС€РµР» СѓСЃРїРµС€РЅРѕ!
+			}
 			Logging(1,"Injected custom dll")
 			ExitApp
 		}
@@ -198,16 +214,26 @@ if (PID > 0) and (Cheat = "Load DLL")
 
 Kill:
 {
-	MsgBox, 4, AYE Loader, Кнопка Kill CS:GO предназначена для закрытия процесса csgo.exe`, если после игры с fatality.win ничего не инжектится.`nУбить CS:GO?
+	if (language = "ru")
+	{
+		MsgBox, 4, AYE Loader, РљРЅРѕРїРєР° Р—Р°РєСЂС‹С‚СЊ CS:GO РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅР° РґР»СЏ Р·Р°РєСЂС‹С‚РёСЏ РїСЂРѕС†РµСЃСЃР° csgo.exe`, РµСЃР»Рё РїРѕСЃР»Рµ РёРіСЂС‹ СЃ fatality.win РЅРёС‡РµРіРѕ РЅРµ РёРЅР¶РµРєС‚РёС‚СЃСЏ.`nРЈР±РёС‚СЊ CS:GO?
+	}
+	if (language = "en")
+	{
+		MsgBox, 4, AYE Loader, The Kill CS:GO button is designed to close the csgo.exe process`n if nothing is injected after playing with fatality.win. `nKill CS:GO?
+	}
 	IfMsgBox, Yes
 	{
 		KillCsgo()
-		MsgBox, 0, AYE Loader, csgo killed
+		if (language = "en")
+		{
+			MsgBox, 0, AYE Loader, CS:GO killed!
+		}
+		if (language = "ru")
+		{
+			MsgBox, 0, AYE Loader, CS:GO Р·Р°РєСЂС‹С‚Р°!
+		}
 		Logging(1,"Killed csgo")
 	}
 	Return
 }
-Source:
-OpenGitHubPage()
-Donate:
-OpenDonatePage()

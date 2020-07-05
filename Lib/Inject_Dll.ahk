@@ -14,7 +14,6 @@ Inject_CleanUp(pMsg, pHandle, pLibrary)
     DllCall("VirtualFreeEx", "UInt", pHandle, "UInt", pLibrary, "UInt", 0, "UInt", 0x8000)
     If pHandle
     DllCall("CloseHandle", "UInt", pHandle)
-    Return False
 }
 Inject_Dll(pID, dllPath)
 {
