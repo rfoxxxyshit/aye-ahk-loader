@@ -1,4 +1,4 @@
-# AYE Loader
+# AYE Loader [![AHK](https://img.shields.io/badge/language-AHK-green.svg)](https://wikipedia.org/wiki/AutoHotkey) [![Windows](https://img.shields.io/badge/platform-Windows-0078d7.svg)](https://en.wikipedia.org/wiki/Microsoft_Windows)
  A simple loader written in AHK.
  
 # How to compile
