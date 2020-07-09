@@ -12,4 +12,5 @@
 - **Перезапустите** лоадер и в списке появится пункт "Load DLL"
 
 # Credits
-[m4x3r1337](https://github.com/m4x3r1337) & [rf0x1d](https://github.com/rfoxxxy)
+- Loader: [m4x3r1337](https://github.com/m4x3r1337) & [rf0x1d](https://github.com/rfoxxxy)
+- emb-vac: [0x000cb](https://github.com/0x000cb)
