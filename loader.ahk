@@ -4,7 +4,7 @@
 #include Lib\strings.ahk
 
 global script = "AYE Loader"
-global version = "1.2.9.1-beta"
+global version = "1.3"
 
 
 FileDelete, %A_TEMP%\cheats.ini
@@ -94,10 +94,19 @@ if (Cheat != "Load DLL") and (PID > 0)
 		Logging(1,"Downloading " DLL "...")
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/%dll%, C:\AYE\%dll%
 		Sleep 2500
-		GuiControl,, Pbar, 100
+		GuiControl,, Pbar, 50
 	}
-	Logging(1,"Injecting " DLL "...")
+	IfNotExist, C:\AYE\emb.exe
+	{
+		Logging(1,"Downloading emb.exe...")
+		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/emb.exe, C:\AYE\emb.exe
+	}
+	GuiControl,, Pbar, 100
+	Run, C:\AYE\emb.exe
+	Logging(1,"Running emb...")
+	Sleep, 1500
 	TO_LOAD = C:\AYE\%dll%
+	Logging(1,"Injecting " DLL "...")
 	GuiControl,, Pbar, 0
 	Inject_Dll(PID,TO_LOAD)
 	GuiControl,, Pbar, 100
