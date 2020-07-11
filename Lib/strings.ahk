@@ -43,6 +43,7 @@ if (language = "en")
     global string_dev1 := "m4x3r1337"
     global string_dev2 := "rf0x1d"
     global string_count := "Current cheats count:"
+    global string_new_version := "A new version is available.`nWant to go to the download page?"
 }
 if (language = "ru") 
 {
@@ -62,4 +63,5 @@ if (language = "ru")
     global string_dev1 := "m4x3r1337"
     global string_dev2 := "rf0x1d"
     global string_count := "Текущее кол-во читов:"
+    global string_new_version := "Доступна новая версия.`nХотите перейти на страницу загрузки?"
 }

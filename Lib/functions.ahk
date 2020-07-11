@@ -1,6 +1,27 @@
 #include Lib\strings.ahk
+#Include Lib\JSON.ahk
 
 
+CheckUpdates()
+{
+	jsonStr := JSON.GetFromUrl("https://api.github.com/repos/rfoxxxyshit/aye-ahk-loader/releases/latest")
+	if IsObject(jsonStr) 
+	{
+		MsgBox, % jsonStr[1]
+		Return
+	}
+	if (jsonStr = "")
+	Return
+	obj := JSON.Parse(jsonStr)
+	latest_release := obj.tag_name
+	if (version != latest_release)
+	{
+		Logging(1,"A new version is available. Latest version: " latest_release)
+		MsgBox, 68, %script%, %string_new_version%
+		IfMsgBox, Yes
+			Run, https://github.com/rfoxxxyshit/aye-ahk-loader/releases/
+	}
+}
 ConfigOpen()
 {
 	run, notepad.exe "C:\AYE\config.ini"
@@ -18,7 +39,7 @@ ShowAbout()
 	}
 	Gui, About:New
 	Gui, About:Font, s9
-	Gui, About:Show, w315 h155, %script% v%version% | About
+	Gui, About:Show, w315 h155, %script% %version% | About
     Gui, About:Add, Text, x112 y9 w100 h20 +Center, %script%
     Gui, About:Add, Text, x59 y29 w200 h30 +Center, %string_desc%
 	Gui, About:Add, Link, x59 y69 w200 h20 +Center, %string_devs% <a href="http://m4x3r.me/">%string_dev1%</a> and <a href="http://rf0x3d.su/">%string_dev2%</a>

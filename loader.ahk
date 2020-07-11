@@ -4,14 +4,14 @@
 #include Lib\strings.ahk
 
 global script = "AYE Loader"
-global version = "1.3"
+global version = "v1.3.1"
 
 
 FileDelete, %A_TEMP%\cheats.ini
 FileDelete, C:\AYE\*.dll
 
 
-Logging(1,"Starting "script " v" version "...")
+Logging(1,"Starting " script " " version "...")
 
 RunAsAdmin()
 Logging(1, "Creating folders and downloading files...")
@@ -36,10 +36,14 @@ Logging(1,"Getting vars...")
 IniRead, cheatlist, %A_TEMP%\cheats.ini, cheatlist, cheatlist
 IniRead, custominject, C:\AYE\config.ini, settings, custominject
 StringLower, custominject, custominject
-Logging(1,"Building GUI...")
 
+
+Logging(1,"Checking updates...")
+CheckUpdates()
+
+Logging(1,"Building GUI...")
 Gui, Font, s9
-Gui, Show, w315 h195, %script% v%version%
+Gui, Show, w315 h195, %script% %version%
 Gui, Add, Text, x112 y9 w100 h20 +Center, %script%
 Gui, Add, Progress, x22 y39 w270 h20 -smooth +Center vPbar
 
