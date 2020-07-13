@@ -1,30 +1,6 @@
 #include Lib\strings.ahk
 #Include Lib\JSON.ahk
 
-
-CheckUpdates()
-{
-	jsonStr := JSON.GetFromUrl("https://api.github.com/repos/rfoxxxyshit/aye-ahk-loader/releases/latest")
-	if IsObject(jsonStr) 
-	{
-		MsgBox, % jsonStr[1]
-		Return
-	}
-	if (jsonStr = "")
-	Return
-	obj := JSON.Parse(jsonStr)
-	latest_release := obj.tag_name
-	if (version != latest_release)
-	{
-		Logging(1,"A new version is available. Latest version: " latest_release)
-		MsgBox, 68, %script%, %string_new_version%
-		IfMsgBox, Yes
-			Run, https://github.com/rfoxxxyshit/aye-ahk-loader/releases/
-	}
-}
-
-
-
 CheckUpdates()
 {
 	jsonStr := JSON.GetFromUrl("https://api.github.com/repos/rfoxxxyshit/aye-ahk-loader/releases/latest")
