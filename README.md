@@ -15,3 +15,4 @@
 - Loader: [m4x3r1337](https://github.com/m4x3r1337) & [rf0x1d](https://github.com/rfoxxxy)
 - emb-vac: [0x000cb](https://github.com/0x000cb)
 - vac-bypass: [danielkrupinski](https://github.com/danielkrupinski/VAC-Bypass-Loader)
+
