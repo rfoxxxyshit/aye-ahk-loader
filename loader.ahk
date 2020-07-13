@@ -50,14 +50,6 @@ IniRead, custominject, C:\AYE\config.ini, settings, custominject
 StringLower, custominject, custominject
 Logging(1, "done.")
 
-
-Logging(1,"Checking updates...")
-CheckUpdates()
-
-Logging(1,"Building GUI...")
-
-
-
 Logging(1,"Checking updates...")
 CheckUpdates()
 
