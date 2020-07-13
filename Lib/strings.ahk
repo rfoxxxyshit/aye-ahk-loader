@@ -28,7 +28,7 @@ IniRead, language, C:\AYE\config.ini, settings, language
 if (language = "en") 
 {
     global string_load := "Load"
-    global string_kill := "Kill CS:GO"
+    global string_bypass := "Enable VAC bypass"
     global string_config := "Config"
     global string_about := "About"
     global string_pid0 := "No csgo.exe process found. Run it?"
@@ -36,7 +36,6 @@ if (language = "en")
     global string_success := "Successful injection!"
     global string_warning_custom_dll := "We're not gonna help you if your fucking system is gonna blow the fucking wine off it's not our fault. `nGot it?"
     global string_no_dll := "You didn't choose the DLL."
-    global string_kill_alert := "The Kill CS:GO button is designed to close the csgo.exe process`n if nothing is injected after playing with fatality.win. `nKill CS:GO?"
     global string_killed := "CS:GO killed!"
     global string_desc := "AYE loader with open-source for AYE boys."
     global string_devs := "Developers:"
@@ -48,7 +47,7 @@ if (language = "en")
 if (language = "ru") 
 {
     global string_load := "Заинжектить"
-    global string_kill := "Закрыть CS:GO"
+    global string_bypass := "Включить VAC bypass"
     global string_config := "Настройки"
     global string_about := "Инфо"
     global string_pid0 := "Процесс csgo.exe не найден. Запустить?"
@@ -56,7 +55,6 @@ if (language = "ru")
     global string_success := "Инжект прошел успешно"
     global string_warning_custom_dll := "Мы не будем тебе помогать если у тебя нахуй система полетит винда нахуй слетит это не наша вина.`nПонял?"
     global string_no_dll := "Ты не выбрал DLL."
-    global string_kill_alert := "Кнопка Закрыть CS:GO предназначена для закрытия процесса csgo.exe`, если после игры с fatality.win ничего не инжектится.`nУбить CS:GO?"
     global string_killed := "CS:GO закрыта!"
     global string_desc := "АУЕ лоадер для АУЕ пацанов с открытым исходным кодом."
     global string_devs := "Разработчики:"

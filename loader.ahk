@@ -1,17 +1,20 @@
-#SingleInstance force
+#SingleInstance, force
 #NoTrayIcon
 #include Lib\functions.ahk
 #include Lib\strings.ahk
 
 global script = "AYE Loader"
-global version = "v1.3.1"
 
+global version = "v1.3.2"
 
 FileDelete, %A_TEMP%\cheats.ini
 FileDelete, C:\AYE\*.dll
 
 
-Logging(1,"Starting " script " " version "...")
+
+Logging(1,"Starting "script " " version "...")
+
+
 
 RunAsAdmin()
 Logging(1, "Creating folders and downloading files...")
@@ -19,23 +22,40 @@ IfNotExist, C:\AYE
 {	
 	Logging(1, "Creating folder...")
 	FileCreateDir, C:\AYE
+	Logging(1, "done.")
 }
 IfNotExist, C:\AYE\config.ini
 {	
 	Logging(1, "Creating config file...")
 	IniWrite, false, C:\AYE\config.ini, settings, custominject
+	Logging(1, "done.")
 }
 IfNotExist, %A_TEMP%\cheats.ini
 {	
 	Logging(1, "Getting cheat list...")
 	UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/cheats.ini, %A_TEMP%\cheats.ini
 	GuiControl,, Pbar, 100
+	Logging(1, "done.")
+}
+IfNotExist, C:\AYE\vac-bypass.exe
+{
+	Logging(1,"Downloading vac-bypass.exe...")
+	UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/vac-bypass.exe, C:\AYE\vac-bypass.exe
+	Logging(1, "done.")
 }
 
 Logging(1,"Getting vars...")
 IniRead, cheatlist, %A_TEMP%\cheats.ini, cheatlist, cheatlist
 IniRead, custominject, C:\AYE\config.ini, settings, custominject
 StringLower, custominject, custominject
+Logging(1, "done.")
+
+
+Logging(1,"Checking updates...")
+CheckUpdates()
+
+Logging(1,"Building GUI...")
+
 
 
 Logging(1,"Checking updates...")
@@ -54,8 +74,8 @@ if (custominject = "true")
 } else {
 	Gui, Add, DropDownList, x112 y79 w100 vCheat Choose1, %cheatlist%
 }
-Gui, Add, Button, x15 y129 w100 h20 +Center gLoad, %string_load%
-Gui, Add, Button, x200 y129 w100 h20 +Center gKill, %string_kill%
+Gui, Add, Button, x15 y129 w100 h30 +Center gLoad, %string_load%
+Gui, Add, Button, x200 y129 w100 h30 +Center gBypass, %string_bypass%
 Menu, AppMenu, Add, &%string_config%, ConfigOpen
 Menu, AppMenu, Add, &%string_about%, ShowAbout
 Gui, Menu, AppMenu
@@ -99,19 +119,22 @@ if (Cheat != "Load DLL") and (PID > 0)
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/%dll%, C:\AYE\%dll%
 		Sleep 2500
 		GuiControl,, Pbar, 50
+		Logging(1, "done.")
 	}
 	IfNotExist, C:\AYE\emb.exe
 	{
 		Logging(1,"Downloading emb.exe...")
 		UrlDownloadToFile, https://github.com/m4x3r1337/otc-direct-link/raw/master/emb.exe, C:\AYE\emb.exe
+		Logging(1, "done.")
 	}
 	GuiControl,, Pbar, 100
-	Run, C:\AYE\emb.exe
 	Logging(1,"Running emb...")
+	Run, C:\AYE\emb.exe
+	GuiControl,, Pbar, 50
+	Logging(1, "done.")
 	Sleep, 1500
 	TO_LOAD = C:\AYE\%dll%
 	Logging(1,"Injecting " DLL "...")
-	GuiControl,, Pbar, 0
 	Inject_Dll(PID,TO_LOAD)
 	GuiControl,, Pbar, 100
 	MsgBox, %string_success%
@@ -136,6 +159,10 @@ if (PID > 0) and (Cheat = "Load DLL")
 		else {
 			Logging(1,"Injecting custom dll...")
 			GuiControl,, Pbar, 0
+			Logging(1,"Running emb...")
+			Run, C:\AYE\emb.exe
+			GuiControl,, Pbar, +50
+			Logging(1, "done.")
 			INJECT := Inject_Dll(PID,DLL)
 			if (!INJECT)
 			{
@@ -152,15 +179,8 @@ if (PID > 0) and (Cheat = "Load DLL")
 		Return
 	Return
 }
-
-Kill:
+Bypass:
 {
-	MsgBox, 4, %script%, %string_kill_alert%
-	IfMsgBox, Yes
-	{
-		KillCsgo()
-		MsgBox, 0, %script%, %string_killed%
-		Logging(1,"Killed csgo")
-	}
-	Return
+	Run, C:\AYE\vac-bypass.exe
+	return
 }
