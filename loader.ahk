@@ -2,19 +2,13 @@
 #NoTrayIcon
 #include Lib\functions.ahk
 #include Lib\strings.ahk
-
 global script = "AYE Loader"
-
 global version = "v1.3.2"
 
 FileDelete, %A_TEMP%\cheats.ini
 FileDelete, C:\AYE\*.dll
 
-
-
 Logging(1,"Starting "script " " version "...")
-
-
 
 RunAsAdmin()
 Logging(1, "Creating folders and downloading files...")
@@ -49,6 +43,7 @@ IniRead, cheatlist, %A_TEMP%\cheats.ini, cheatlist, cheatlist
 IniRead, custominject, C:\AYE\config.ini, settings, custominject
 StringLower, custominject, custominject
 Logging(1, "done.")
+
 
 Logging(1,"Checking updates...")
 CheckUpdates()
