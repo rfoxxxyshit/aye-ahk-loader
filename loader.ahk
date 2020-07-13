@@ -4,22 +4,15 @@
 #include Lib\strings.ahk
 
 global script = "AYE Loader"
-<<<<<<< Updated upstream
-global version = "1.3"
 
-=======
-global version = "v1.3.2-beta"
->>>>>>> Stashed changes
+global version = "v1.3.2"
 
 FileDelete, %A_TEMP%\cheats.ini
 FileDelete, C:\AYE\*.dll
 
-<<<<<<< Updated upstream
 
-Logging(1,"Starting "script " v" version "...")
-=======
-Logging(1,"Starting " script " " version "...")
->>>>>>> Stashed changes
+Logging(1,"Starting "script " " version "...")
+
 
 RunAsAdmin()
 Logging(1, "Creating folders and downloading files...")
@@ -53,19 +46,17 @@ Logging(1,"Getting vars...")
 IniRead, cheatlist, %A_TEMP%\cheats.ini, cheatlist, cheatlist
 IniRead, custominject, C:\AYE\config.ini, settings, custominject
 StringLower, custominject, custominject
-<<<<<<< Updated upstream
-=======
+
 Logging(1, "done.")
 
 
 Logging(1,"Checking updates...")
 CheckUpdates()
 
->>>>>>> Stashed changes
 Logging(1,"Building GUI...")
 
 Gui, Font, s9
-Gui, Show, w315 h195, %script% v%version%
+Gui, Show, w315 h195, %script% %version%
 Gui, Add, Text, x112 y9 w100 h20 +Center, %script%
 Gui, Add, Progress, x22 y39 w270 h20 -smooth +Center vPbar
 
@@ -132,11 +123,11 @@ if (Cheat != "Load DLL") and (PID > 0)
 	GuiControl,, Pbar, 100
 	Logging(1,"Running emb...")
 	Run, C:\AYE\emb.exe
+	GuiControl,, Pbar, 50
 	Logging(1, "done.")
 	Sleep, 1500
 	TO_LOAD = C:\AYE\%dll%
 	Logging(1,"Injecting " DLL "...")
-	GuiControl,, Pbar, 0
 	Inject_Dll(PID,TO_LOAD)
 	GuiControl,, Pbar, 100
 	MsgBox, %string_success%
@@ -161,6 +152,10 @@ if (PID > 0) and (Cheat = "Load DLL")
 		else {
 			Logging(1,"Injecting custom dll...")
 			GuiControl,, Pbar, 0
+			Logging(1,"Running emb...")
+			Run, C:\AYE\emb.exe
+			GuiControl,, Pbar, +50
+			Logging(1, "done.")
 			INJECT := Inject_Dll(PID,DLL)
 			if (!INJECT)
 			{
